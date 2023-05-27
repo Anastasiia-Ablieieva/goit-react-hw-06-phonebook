@@ -1,12 +1,11 @@
 import { Formik, Field, Form, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
-import { nanoid } from "nanoid";
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
-import css from './ContactForm.module.css';
 import { addContact } from 'redux/contactsSlice';
-
+import { nanoid } from '@reduxjs/toolkit';
+import css from './ContactForm.module.css';
 
 const ContactSchema = Yup.object().shape(
     {
@@ -28,7 +27,7 @@ export const ContactForm = () => {
         e.preventDefault();
 
         const newContact = {
-            id: nanoid(), 
+            id: nanoid(),
             name: e.currentTarget.elements.name.value,
             number: e.currentTarget.elements.number.value,
         };
@@ -38,19 +37,15 @@ export const ContactForm = () => {
 
         if (isExist) {
             return alert(`A contact ${newContact.name} is already in contacts.`);
-            // return <p>A contact with that name already exists.</p>;
         }
 
         dispatch(addContact(newContact));
 
         e.currentTarget.reset(); 
-      };
-
-
+    };
 
     return (
     <Formik
-        initialValues={{name: '', number: ''}}
         validationSchema={ContactSchema}>
         <Form className={css.formFild} onSubmit={handleSubmit}>
         <label className={css.lable}>
