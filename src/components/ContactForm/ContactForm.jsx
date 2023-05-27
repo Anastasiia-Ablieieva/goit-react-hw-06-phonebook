@@ -2,7 +2,11 @@ import { Formik, Field, Form, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import { nanoid } from "nanoid";
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
 import css from './ContactForm.module.css';
+import { addContact } from 'redux/contactsSlice';
+
 
 const ContactSchema = Yup.object().shape(
     {
@@ -15,16 +19,40 @@ const ContactSchema = Yup.object().shape(
     }
 );
 
-export const ContactForm = ({ onAddContact }) => {
+export const ContactForm = () => {
+
+    const contacts = useSelector(getContacts);
+    const dispatch = useDispatch();
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        const newContact = {
+            id: nanoid(), 
+            name: e.currentTarget.elements.name.value,
+            number: e.currentTarget.elements.number.value,
+        };
+
+        const isExist = contacts.find(
+            ({ name }) => name.toLowerCase() === newContact.name.toLowerCase());
+
+        if (isExist) {
+            return alert(`A contact ${newContact.name} is already in contacts.`);
+            // return <p>A contact with that name already exists.</p>;
+        }
+
+        dispatch(addContact(newContact));
+
+        e.currentTarget.reset(); 
+      };
+
+
+
     return (
     <Formik
         initialValues={{name: '', number: ''}}
-        validationSchema={ContactSchema}
-        onSubmit={(values, { resetForm }) => {
-            onAddContact({ id: nanoid(), ...values });
-            resetForm();
-          }}>
-        <Form className={css.formFild}>
+        validationSchema={ContactSchema}>
+        <Form className={css.formFild} onSubmit={handleSubmit}>
         <label className={css.lable}>
             Name
             <Field className={css.field} name="name" type="text"/>
