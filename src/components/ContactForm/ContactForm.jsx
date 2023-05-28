@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
 import { addContact } from 'redux/contactsSlice';
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
 
@@ -30,7 +30,7 @@ export const ContactForm = () => {
 
     return (
         <form className={css.form} onSubmit={handleSubmit}>
-        <label className={css.lable}>Name</label>
+        <label className={css.lable} htmlFor={nanoid()}>Name</label>
         <input
             className={css.input}
             type="text"
@@ -40,7 +40,7 @@ export const ContactForm = () => {
             id={nanoid()}
             required
         />
-        <label className={css.lable}>Number</label>
+        <label className={css.lable} htmlFor={nanoid()}>Number</label>
         <input
             className={css.input}
             type="tel"
