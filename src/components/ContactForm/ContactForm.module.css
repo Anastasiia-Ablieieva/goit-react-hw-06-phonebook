@@ -1,4 +1,4 @@
-.formFild {
+.form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,13 +18,8 @@
     font-size: 20px;
 }
 
-.field {
+.input {
     width: 400px;
-    padding: 6px;
-
-    border: 1px solid #afb1b8;
-    border-radius: 5px;
-    
 }
 
 .button {
@@ -36,8 +31,4 @@
     border-radius: 5px;
 
     cursor: pointer;
-}
-
-.error {
-    font-family: 5px;
 }
